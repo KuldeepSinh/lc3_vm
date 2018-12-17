@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/KuldeepSinh/lc3_vm.svg?branch=master)](https://travis-ci.org/KuldeepSinh/lc3_vm)
+
 # lc3_vm
 LC-3 (Little Computer 3) VM implemented in Rust 
 
