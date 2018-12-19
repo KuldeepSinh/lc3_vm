@@ -48,7 +48,7 @@ fn match_and_perform_op(instruction: &u16) {
 //To extract left 4 bits out of the instruction, we'll use ">>" shift-right
 //operator and shift first 4 bits 12 positions towards right
 fn extract_op_code(instruction: &u16) -> Option<OpCode> {
-    OpCode::get_op_code(instruction >> 12)
+    OpCode::get(instruction >> 12)
 }
 
 #[cfg(test)]
