@@ -25,7 +25,7 @@ fn match_and_perform_op(instruction: &u16) {
     let op_code = extract_op_code(&instruction);
     //match and perform operation
     match op_code {
-        Some(OpCode::OpAdd) => {}
+        Some(OpCode::Add) => {}
         // Some(OpCode::op_and) => {}
         // Some(OpCode::op_not) => {}
         // Some(OpCode::op_br) => {}
@@ -57,6 +57,6 @@ mod extract_op_code_test {
     #[test]
     fn extract_test() {
         let four = 16384;
-        assert_eq!(Some(OpCode::OpJsr), extract_op_code(&four));
+        assert_eq!(Some(OpCode::Jsr), extract_op_code(&four));
     }
 }
