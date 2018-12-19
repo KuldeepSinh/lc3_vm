@@ -49,9 +49,9 @@ pub enum OpCode {
     Trap,
 }
 impl OpCode {
-    /// `get_op_code` returns Some(OpCode), when a valid value (between 0 to 15) is passed,
+    /// `get` returns Some(OpCode), when a valid value (between 0 to 15) is passed,
     /// otherwise it returns None.
-    pub fn get_op_code(op_code: u16) -> Option<OpCode> {
+    pub fn get(op_code: u16) -> Option<OpCode> {
         match op_code {
             0 => Some(OpCode::Br),
             1 => Some(OpCode::Add),
@@ -79,21 +79,21 @@ mod op_code_test {
     use super::*;
     #[test]
     fn op_codes_initial_values() {
-        assert_eq!(Some(OpCode::Br), OpCode::get_op_code(0));
-        assert_eq!(Some(OpCode::Add), OpCode::get_op_code(1));
-        assert_eq!(Some(OpCode::Ld), OpCode::get_op_code(2));
-        assert_eq!(Some(OpCode::St), OpCode::get_op_code(3));
-        assert_eq!(Some(OpCode::Jsr), OpCode::get_op_code(4));
-        assert_eq!(Some(OpCode::And), OpCode::get_op_code(5));
-        assert_eq!(Some(OpCode::Ldr), OpCode::get_op_code(6));
-        assert_eq!(Some(OpCode::Str), OpCode::get_op_code(7));
-        assert_eq!(Some(OpCode::Rti), OpCode::get_op_code(8));
-        assert_eq!(Some(OpCode::Not), OpCode::get_op_code(9));
-        assert_eq!(Some(OpCode::Ldi), OpCode::get_op_code(10));
-        assert_eq!(Some(OpCode::Sti), OpCode::get_op_code(11));
-        assert_eq!(Some(OpCode::Jmp), OpCode::get_op_code(12));
-        assert_eq!(Some(OpCode::Res), OpCode::get_op_code(13));
-        assert_eq!(Some(OpCode::Lea), OpCode::get_op_code(14));
-        assert_eq!(Some(OpCode::Trap), OpCode::get_op_code(15));
+        assert_eq!(Some(OpCode::Br), OpCode::get(0));
+        assert_eq!(Some(OpCode::Add), OpCode::get(1));
+        assert_eq!(Some(OpCode::Ld), OpCode::get(2));
+        assert_eq!(Some(OpCode::St), OpCode::get(3));
+        assert_eq!(Some(OpCode::Jsr), OpCode::get(4));
+        assert_eq!(Some(OpCode::And), OpCode::get(5));
+        assert_eq!(Some(OpCode::Ldr), OpCode::get(6));
+        assert_eq!(Some(OpCode::Str), OpCode::get(7));
+        assert_eq!(Some(OpCode::Rti), OpCode::get(8));
+        assert_eq!(Some(OpCode::Not), OpCode::get(9));
+        assert_eq!(Some(OpCode::Ldi), OpCode::get(10));
+        assert_eq!(Some(OpCode::Sti), OpCode::get(11));
+        assert_eq!(Some(OpCode::Jmp), OpCode::get(12));
+        assert_eq!(Some(OpCode::Res), OpCode::get(13));
+        assert_eq!(Some(OpCode::Lea), OpCode::get(14));
+        assert_eq!(Some(OpCode::Trap), OpCode::get(15));
     }
 }
