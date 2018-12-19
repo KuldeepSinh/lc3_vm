@@ -4,7 +4,7 @@
 //! However, since there are just a few registers, only a minimal amount of data can be loaded at any given time.
 //! Programs work around this by loading values from memory into registers, calculating values into other registers,
 //! and then storing the final results back in memory.
-//set initial value of the program counter = 0x3000
+/// `PC_START` sets initial value of the program counter (r_pc) = 0x3000.
 pub const PC_START: u16 = 0x3000;
 
 /// The LC-3 has 10 total registers, each of which is 16 bits. Most of them are general purpose, but a few have designated roles.
