@@ -1,23 +1,56 @@
+//! An `instruction` is a command which tells the CPU to do some fundamental task,
+//! such as add two numbers.
+//! Instructions have both an `opcode` which indicates the kind of task to perform
+//! and a set of `parameters` which provide inputs to the task being performed.
+//! Each `opcode` represents one task that the CPU "knows" how to do.
+//! There are just 16 opcodes in LC-3. Everything the computer can calculate is some
+//! sequence of these simple instructions. Each instruction is 16 bits long,
+//! with the left 4 bits storing the opcode.
+//! The rest of the bits are used to store the parameters.
+
+/// Each `opcode` represents one task that the CPU "knows" how to do.
+/// There are just 16 opcodes in LC-3. Everything the computer can calculate is some
+/// sequence of these simple instructions. Each instruction is 16 bits long,
+/// with the left 4 bits storing the opcode.
+/// The rest of the bits are used to store the parameters.
 #[derive(PartialEq, Debug)]
 pub enum OpCode {
-    OpBr,   // branch
-    OpAdd,  // add
-    OpLd,   // load
-    OpSt,   // store
-    OpJsr,  // jump register
-    OpAnd,  // bitwise and
-    OpLdr,  // load register
-    OpStr,  // store register
-    OpRti,  // unused
-    OpNot,  // bitwise not
-    OpLdi,  // load indirect
-    OpSti,  // store indirect
-    OpJmp,  // jump
-    OpRes,  // reserved (unused)
-    OpLea,  // load effective address
-    OpTrap, // execute trap
+    /// `OpBr` is an `OpCode` for branch.
+    OpBr,
+    /// `OpAdd` is an `OpCode` for add.
+    OpAdd,
+    /// `OpLd` is an `OpCode` for load.
+    OpLd,
+    /// `OpSt` is an `OpCode` for store.
+    OpSt,
+    /// `OpJsr` is an `OpCode` for jump register.
+    OpJsr,
+    /// `OpAnd` is an `OpCode` for and.
+    OpAnd,
+    /// `OpLdr` is an `OpCode` for load register.
+    OpLdr,
+    /// `OpStr` is an `OpCode` for store register.
+    OpStr,
+    /// `OpRti` is an unused `OpCode`.
+    OpRti,
+    /// `OpNot` is an `OpCode` for bitwise not.
+    OpNot,
+    /// `OpLdi` is an `OpCode` for load indirect.
+    OpLdi,
+    /// `OpSti` is an `OpCode` for store indirect.
+    OpSti,
+    /// `OpJmp` is an `OpCode` for jump.
+    OpJmp,
+    /// `OpRes` is a reserved (unused) `OpCode`.
+    OpRes,
+    /// `OpLea` is an `OpCode` for load effective address.
+    OpLea,
+    /// `OpTrap` is an `OpCode` for execute trap.
+    OpTrap,
 }
 impl OpCode {
+    /// `get_op_code` returns Some(OpCode), when a valid value (between 0 to 15) is passed,
+    /// otherwise it returns None.
     pub fn get_op_code(op_code: u16) -> Option<OpCode> {
         match op_code {
             0 => Some(OpCode::OpBr),
