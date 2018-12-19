@@ -50,7 +50,7 @@ pub enum OpCode {
 }
 impl OpCode {
     /// `get_op_code` returns Some(OpCode), when a valid value (between 0 to 15) is passed,
-    //otherwise it returns None.
+    /// otherwise it returns None.
     pub fn get_op_code(op_code: u16) -> Option<OpCode> {
         match op_code {
             0 => Some(OpCode::OpBr),
