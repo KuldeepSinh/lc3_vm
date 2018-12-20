@@ -57,6 +57,38 @@ impl Registers {
             r_cond: 0,      // condition flag
         }
     }
+
+    pub fn update(&mut self, index: u16, value: u16) {
+        match index {
+            0 => self.r_00 = value,
+            1 => self.r_01 = value,
+            2 => self.r_02 = value,
+            3 => self.r_03 = value,
+            4 => self.r_04 = value,
+            5 => self.r_05 = value,
+            6 => self.r_06 = value,
+            7 => self.r_07 = value,
+            8 => self.r_pc = value,
+            9 => self.r_cond = value,
+            _ => panic!("Inxed out of bound. "),
+        }
+    }
+
+    pub fn get(&self, index: u16) -> u16 {
+        match index {
+            0 => self.r_00,
+            1 => self.r_01,
+            2 => self.r_02,
+            3 => self.r_03,
+            4 => self.r_04,
+            5 => self.r_05,
+            6 => self.r_06,
+            7 => self.r_07,
+            8 => self.r_pc,
+            9 => self.r_cond,
+            _ => panic!("Inxed out of bound. "),
+        }
+    }
 }
 
 /// The R_COND register stores condition flags which provide information
@@ -81,7 +113,7 @@ impl ConditionFlag {
     /// - `ConditionFlag::FlPos` = 1, Positive
     /// - `ConditionFlag::FlZro` = 2, Zero
     /// - `ConditionFlag::FlNeg` = 4, Negative
-    pub fn get_flag_value(flag: ConditionFlag) -> u8 {
+    pub fn get_flag_value(flag: ConditionFlag) -> u16 {
         match flag {
             ConditionFlag::FlPos => 1 << 0, // Positive
             ConditionFlag::FlZro => 1 << 1, // Zero
