@@ -3,3 +3,10 @@
 //! It has a simplified instruction set compared to x86, but contains all the main ideas used in modern CPUs.
 
 pub mod hardware;
+
+use std::process;
+
+pub fn handle_interrupt(sig: i32) {
+    println!("Exiting with interrupt code {}.\n", sig);
+    process::exit(-2);
+}
