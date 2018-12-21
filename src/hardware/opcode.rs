@@ -74,6 +74,16 @@ impl OpCode {
     }
 }
 
+/* TRAP Codes */
+pub enum TrapCodes {
+    GetC = 0x20,  /* get character from keyboard */
+    Out = 0x21,   /* output a character */
+    Puts = 0x22,  /* output a word string */
+    In = 0x23,    /* input a string */
+    Putsp = 0x24, /* output a byte string */
+    Halt = 0x25,  /* halt the program */
+}
+
 #[cfg(test)]
 mod op_code_test {
     use super::*;
