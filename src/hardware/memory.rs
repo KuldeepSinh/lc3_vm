@@ -16,4 +16,28 @@ impl Memory {
     pub fn write(&mut self, address: usize, value: u16) {
         self.cells[address] = value;
     }
+
+    pub fn read(&mut self, address: u16) -> u16 {
+        if address == MemoryMappedReg::Kbsr as u16 {
+            if check_key() {
+                self.cells[MemoryMappedReg::Kbsr as usize] = 1 << 15;
+                self.cells[MemoryMappedReg::Kbdr as usize] = get_char();
+            } else {
+                self.cells[MemoryMappedReg::Kbsr as usize] = 0;
+            }
+        }
+        self.cells[address as usize]
+    }
+}
+pub enum MemoryMappedReg {
+    Kbsr = 0xFE00, /* keyboard status */
+    Kbdr = 0xFE02, /* keyboard data */
+}
+
+fn check_key() -> bool {
+    unimplemented!("fn check_key() is not implemented yet.");
+}
+
+fn get_char() -> u16 {
+    unimplemented!("fn get_char() is not implemented yet.");
 }

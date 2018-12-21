@@ -37,8 +37,12 @@ fn execute_instruction(instr: u16, registers: &mut Registers, memory: &mut Memor
         Some(OpCode::Br) => instructions::br::br(instr, registers),
         Some(OpCode::Jmp) => instructions::jmp::jmp(instr, registers),
         Some(OpCode::Jsr) => instructions::jsr::jsr(instr, registers),
+        Some(OpCode::Ld) => instructions::ld::ld(instr, registers, memory),
+        Some(OpCode::Ldi) => instructions::ldi::ldi(instr, registers, memory),
+        Some(OpCode::Ldr) => instructions::ldr::ldr(instr, registers, memory),
         Some(OpCode::Lea) => instructions::lea::lea(instr, registers),
         Some(OpCode::St) => instructions::st::st(instr, registers, memory),
+        Some(OpCode::Sti) => instructions::sti::sti(instr, registers, memory),
         Some(OpCode::Str) => instructions::str::str(instr, registers, memory),
         _ => {}
     }
