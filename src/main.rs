@@ -7,8 +7,8 @@ fn main() -> Result<(), Box<Error>> {
     //setup for interrupt handling.
     let signals = Signals::new(&[SIGINT])?;
     thread::spawn(move || {
-        for sig in signals.forever() {
-            lc3_vm::handle_interrupt(sig);
+        for _sig in signals.forever() {
+            lc3_vm::terminal::handle_interrupt();
         }
     });
     println!("Hello, world!");
