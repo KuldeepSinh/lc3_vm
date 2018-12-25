@@ -10,7 +10,7 @@ pub fn handle_interrupt() {
 }
 
 pub fn restore_original_termainal() {
-    //0 passed for from_fd is equal to "STDIN_FILENO" (its a libc const)
+    //0 passed in the from_fd fn is equal to "STDIN_FILENO" (its a libc const)
     let mut term: Termios = Termios::from_fd(0).unwrap();
     //turn on canonical mode and echo mode
     term.c_lflag |= ICANON | ECHO;
@@ -18,7 +18,7 @@ pub fn restore_original_termainal() {
 }
 
 pub fn change_terminal() {
-    //0 passed for from_fd is equal to "STDIN_FILENO" (its a libc const)
+    //0 passed in the from_fd fn is equal to "STDIN_FILENO" (its a libc const)
     let mut term: Termios = Termios::from_fd(0).unwrap();
     //turn off canonical mode and echo mode
     term.c_lflag &= !(ICANON | ECHO);

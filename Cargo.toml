@@ -7,3 +7,4 @@ edition = "2018"
 [dependencies]
 signal-hook = "0.1.6"
 termios = "0.3.1"
+byteorder = "1.2.7"

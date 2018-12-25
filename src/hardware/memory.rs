@@ -13,6 +13,11 @@ pub struct Memory {
 }
 
 impl Memory {
+    pub fn new() -> Memory {
+        Memory {
+            cells: [0; MEMORY_SIZE],
+        }
+    }
     pub fn write(&mut self, address: usize, value: u16) {
         self.cells[address] = value;
     }
