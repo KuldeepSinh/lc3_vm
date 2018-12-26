@@ -4,4 +4,5 @@
 
 pub mod file;
 pub mod hardware;
+pub mod sys;
 pub mod terminal;
