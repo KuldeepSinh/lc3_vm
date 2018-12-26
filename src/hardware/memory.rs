@@ -1,6 +1,12 @@
 //! `Memory` : LC-3 has 65,536 memory locations (the maximum that is addressable by a 16-bit unsigned integer 2^16),
 //! each of which stores a 16-bit value. This means it can store a total of only 128kb.
 
+use crate::sys::select::{self, FdSet};
+use crate::sys::time::TimeVal;
+use crate::sys::time::TimeValLike;
+
+pub use libc::STDIN_FILENO;
+
 /// `MEMORY_SIZE` is a constant to represent size of memory in LC-3.
 pub const MEMORY_SIZE: usize = std::u16::MAX as usize;
 
@@ -40,7 +46,14 @@ pub enum MemoryMappedReg {
 }
 
 fn check_key() -> bool {
-    unimplemented!("fn check_key() is not implemented yet.");
+    let mut fd = FdSet::new();
+    fd.insert(STDIN_FILENO);
+
+    let mut timeout = TimeVal::seconds(10);
+    match select::select(1, &mut fd, None, None, &mut timeout) {
+        Err(_) => false,
+        _ => true,
+    }
 }
 
 fn get_char() -> u16 {
