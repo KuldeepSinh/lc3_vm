@@ -9,41 +9,40 @@ pub mod register;
 use self::memory::Memory;
 use self::opcode::OpCode;
 use self::register::Registers;
-use self::register::PC_START;
 
-pub fn execute_program(mut memory: &mut Memory) {
+pub fn execute_program(mem: Memory) {
     //initialize Registers
+    let mut memory = mem.clone();
     let mut registers = Registers::new();
-    //loop through memory from PC_START to end of the memory.
-    let mut pc_pointer = PC_START as usize;
     loop {
-        //get instruction from the current position
-        let instruction = memory.cells[pc_pointer];
-        //increment pointer
-        pc_pointer += 1;
+        //read instruction
+        let instruction = memory.read(registers.r_pc);
+        //increment program counter
+        registers.r_pc += 1;
         //extract op_code and execute operation...
         execute_instruction(instruction, &mut registers, &mut memory);
     }
 }
 
-fn execute_instruction(instr: u16, registers: &mut Registers, memory: &mut Memory) {
+fn execute_instruction(instr: u16, mut registers: &mut Registers, mut memory: &mut Memory) {
     //extract op_code from the instruction
     let op_code = extract_op_code(&instr);
     //match op_code and execute instruction
     match op_code {
-        Some(OpCode::Add) => instructions::add::add(instr, registers),
-        Some(OpCode::And) => instructions::and::and(instr, registers),
-        Some(OpCode::Not) => instructions::not::not(instr, registers),
-        Some(OpCode::Br) => instructions::br::br(instr, registers),
-        Some(OpCode::Jmp) => instructions::jmp::jmp(instr, registers),
-        Some(OpCode::Jsr) => instructions::jsr::jsr(instr, registers),
-        Some(OpCode::Ld) => instructions::ld::ld(instr, registers, memory),
-        Some(OpCode::Ldi) => instructions::ldi::ldi(instr, registers, memory),
-        Some(OpCode::Ldr) => instructions::ldr::ldr(instr, registers, memory),
-        Some(OpCode::Lea) => instructions::lea::lea(instr, registers),
-        Some(OpCode::St) => instructions::st::st(instr, registers, memory),
-        Some(OpCode::Sti) => instructions::sti::sti(instr, registers, memory),
-        Some(OpCode::Str) => instructions::str::str(instr, registers, memory),
+        Some(OpCode::Add) => instructions::add::add(instr, &mut registers),
+        Some(OpCode::And) => instructions::and::and(instr, &mut registers),
+        Some(OpCode::Not) => instructions::not::not(instr, &mut registers),
+        Some(OpCode::Br) => instructions::br::br(instr, &mut registers),
+        Some(OpCode::Jmp) => instructions::jmp::jmp(instr, &mut registers),
+        Some(OpCode::Jsr) => instructions::jsr::jsr(instr, &mut registers),
+        Some(OpCode::Ld) => instructions::ld::ld(instr, &mut registers, &mut memory),
+        Some(OpCode::Ldi) => instructions::ldi::ldi(instr, &mut registers, &mut memory),
+        Some(OpCode::Ldr) => instructions::ldr::ldr(instr, &mut registers, &mut memory),
+        Some(OpCode::Lea) => instructions::lea::lea(instr, &mut registers),
+        Some(OpCode::St) => instructions::st::st(instr, &mut registers, &mut memory),
+        Some(OpCode::Sti) => instructions::sti::sti(instr, &mut registers, &mut memory),
+        Some(OpCode::Str) => instructions::str::str(instr, &mut registers, &mut memory),
+        Some(OpCode::Trap) => instructions::trap::trap(instr, &mut registers, &mut memory),
         _ => {}
     }
 }
