@@ -15,7 +15,7 @@ fn main() -> Result<(), Box<Error>> {
             //Interrupt (Ctrl + C) is handled as follows...
             //Terminal is restored to its original configuration
             //Process is exited with (-2)
-            lc3_vm::terminal::handle_interrupt();
+            lc3_vm::sys::terminal::handle_interrupt();
         }
     });
     match lc3_vm::handle_args(env::args()) {
@@ -25,7 +25,7 @@ fn main() -> Result<(), Box<Error>> {
     //change terminal as follows...
     //1. turn off canonical mode
     //2. turn off echo mod
-    lc3_vm::terminal::change_terminal();
+    lc3_vm::sys::terminal::change_terminal();
     println!("Hello, world!");
     Ok(())
 }

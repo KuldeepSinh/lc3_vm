@@ -1,7 +1,7 @@
 use crate::hardware::register::Registers;
 use crate::hardware::Memory;
 use crate::sys::getchar::get_char;
-use crate::terminal::restore_original_termainal;
+use crate::sys::terminal::restore_original_termainal;
 use std::io;
 use std::io::Write;
 use std::process;

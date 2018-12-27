@@ -5,7 +5,6 @@
 pub mod file;
 pub mod hardware;
 pub mod sys;
-pub mod terminal;
 
 use self::hardware::memory::Memory;
 use std::env::Args;

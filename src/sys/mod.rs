@@ -1,6 +1,7 @@
 pub mod errno;
 pub mod getchar;
 pub mod select;
+pub mod terminal;
 pub mod time;
 
 use self::errno::Errno;
