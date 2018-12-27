@@ -1,6 +1,7 @@
 //! `Memory` : LC-3 has 65,536 memory locations (the maximum that is addressable by a 16-bit unsigned integer 2^16),
 //! each of which stores a 16-bit value. This means it can store a total of only 128kb.
 
+use crate::sys::getchar::get_char;
 use crate::sys::select::{self, FdSet};
 use crate::sys::time::TimeVal;
 use crate::sys::time::TimeValLike;
@@ -13,6 +14,7 @@ pub const MEMORY_SIZE: usize = std::u16::MAX as usize;
 /// `Memory` : LC-3 has 65,536 memory locations (the maximum that is addressable by a 16-bit unsigned integer 2^16),
 /// each of which stores a 16-bit value. This means it can store a total of only 128kb.
 
+#[derive(Copy)]
 pub struct Memory {
     /// Memory is an array of `u16` cells, with length = 65,536.
     pub cells: [u16; MEMORY_SIZE],
@@ -32,12 +34,18 @@ impl Memory {
         if address == MemoryMappedReg::Kbsr as u16 {
             if check_key() {
                 self.cells[MemoryMappedReg::Kbsr as usize] = 1 << 15;
-                self.cells[MemoryMappedReg::Kbdr as usize] = get_char();
+                self.cells[MemoryMappedReg::Kbdr as usize] = get_char() as u16;
             } else {
                 self.cells[MemoryMappedReg::Kbsr as usize] = 0;
             }
         }
         self.cells[address as usize]
+    }
+}
+
+impl Clone for Memory {
+    fn clone(&self) -> Memory {
+        *self
     }
 }
 pub enum MemoryMappedReg {
@@ -54,8 +62,4 @@ fn check_key() -> bool {
         Err(_) => false,
         _ => true,
     }
-}
-
-fn get_char() -> u16 {
-    unimplemented!("fn get_char() is not implemented yet.");
 }

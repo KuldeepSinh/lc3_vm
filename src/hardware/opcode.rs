@@ -16,37 +16,37 @@
 #[derive(PartialEq, Debug)]
 pub enum OpCode {
     /// `Br` is an `OpCode` for branch.
-    Br,
+    Br = 0,
     /// `Add` is an `OpCode` for add.
-    Add,
+    Add = 1,
     /// `Ld` is an `OpCode` for load.
-    Ld,
+    Ld = 2,
     /// `St` is an `OpCode` for store.
-    St,
+    St = 3,
     /// `Jsr` is an `OpCode` for jump register.
-    Jsr,
+    Jsr = 4,
     /// `And` is an `OpCode` for and.
-    And,
+    And = 5,
     /// `Ldr` is an `OpCode` for load register.
-    Ldr,
+    Ldr = 6,
     /// `Str` is an `OpCode` for store register.
-    Str,
+    Str = 7,
     /// `Rti` is an unused `OpCode`.
-    Rti,
+    Rti = 8,
     /// `Not` is an `OpCode` for bitwise not.
-    Not,
+    Not = 9,
     /// `Ldi` is an `OpCode` for load indirect.
-    Ldi,
+    Ldi = 10,
     /// `Sti` is an `OpCode` for store indirect.
-    Sti,
+    Sti = 11,
     /// `Jmp` is an `OpCode` for jump.
-    Jmp,
+    Jmp = 12,
     /// `Res` is a reserved (unused) `OpCode`.
-    Res,
+    Res = 13,
     /// `Lea` is an `OpCode` for load effective address.
-    Lea,
+    Lea = 14,
     /// `Trap` is an `OpCode` for execute trap.
-    Trap,
+    Trap = 15,
 }
 impl OpCode {
     /// `get` returns Some(OpCode), when a valid value (between 0 to 15) is passed,
@@ -72,16 +72,6 @@ impl OpCode {
             _ => None,
         }
     }
-}
-
-/* TRAP Codes */
-pub enum TrapCodes {
-    GetC = 0x20,  /* get character from keyboard */
-    Out = 0x21,   /* output a character */
-    Puts = 0x22,  /* output a word string */
-    In = 0x23,    /* input a string */
-    Putsp = 0x24, /* output a byte string */
-    Halt = 0x25,  /* halt the program */
 }
 
 #[cfg(test)]

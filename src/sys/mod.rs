@@ -1,4 +1,5 @@
 pub mod errno;
+pub mod getchar;
 pub mod select;
 pub mod time;
 
