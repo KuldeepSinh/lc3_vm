@@ -1,11 +1,10 @@
 extern crate termios;
 
-pub use libc::STDIN_FILENO;
-use std::process;
-use termios::*;
-
+use libc::STDIN_FILENO;
 use signal_hook::{iterator::Signals, SIGINT};
+use std::process;
 use std::{error::Error, thread};
+use termios::*;
 
 fn handle_interrupt() {
     restore_terminal_settings();
