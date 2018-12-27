@@ -7,7 +7,7 @@ use termios::*;
 use signal_hook::{iterator::Signals, SIGINT};
 use std::{error::Error, thread};
 
-pub fn handle_interrupt() {
+fn handle_interrupt() {
     turn_on_canonical_and_echo_modes();
     println!("Exiting with interrupt code.\n");
     process::exit(-2);
