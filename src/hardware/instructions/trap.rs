@@ -1,7 +1,7 @@
 use crate::hardware::register::Registers;
 use crate::hardware::Memory;
 use crate::sys::getchar::get_char;
-use crate::sys::terminal::restore_original_termainal;
+use crate::sys::terminal::turn_on_canonical_and_echo_modes;
 use std::io;
 use std::io::Write;
 use std::process;
@@ -68,7 +68,7 @@ pub fn trap(instr: u16, registers: &mut Registers, memory: &mut Memory) {
             /* TRAP HALT */
             print!("HALT");
             io::stdout().flush().expect("Flushed.");
-            restore_original_termainal();
+            turn_on_canonical_and_echo_modes();
             process::exit(1);
         }
         _ => {
