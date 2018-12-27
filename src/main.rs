@@ -9,7 +9,7 @@ use std::process;
 
 fn main() -> Result<(), Box<Error>> {
     //setup for interrupt handling.
-    terminal::spawn_thread_for_signal_processing()?;
+    terminal::spawn_control_c_handler()?;
     //handle command line arguments and process instructions
     match lc3_vm::handle_args(env::args()) {
         Ok(mem) => {
