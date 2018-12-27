@@ -3,7 +3,6 @@ extern crate signal_hook;
 use lc3_vm::file;
 use lc3_vm::hardware::instructions::*;
 use lc3_vm::hardware::memory::Memory;
-use lc3_vm::hardware::register::Registers;
 use signal_hook::{iterator::Signals, SIGINT};
 use std::env;
 use std::env::Args;
@@ -42,33 +41,5 @@ fn handle_args(mut args: Args) -> Result<Memory, &'static str> {
             Err(_) => Err("Error encountered while reading into memory."),
         },
         None => Err("No more file for processing."),
-    }
-}
-
-fn process_instructions(mem: Memory) {
-    let mut registers = Registers::new();
-    let mut memory = mem.clone();
-    loop {
-        let instruction = memory.read(registers.r_pc);
-        registers.r_pc += 1;
-        match instruction >> 12 {
-            0 => br::br(instruction, &mut registers),
-            1 => add::add(instruction, &mut registers),
-            2 => ld::ld(instruction, &mut registers, &mut memory),
-            3 => st::st(instruction, &mut registers, &mut memory),
-            4 => jsr::jsr(instruction, &mut registers),
-            5 => and::and(instruction, &mut registers),
-            6 => ldr::ldr(instruction, &mut registers, &mut memory),
-            7 => str::str(instruction, &mut registers, &mut memory),
-            //8 => {} //rti
-            9 => not::not(instruction, &mut registers),
-            10 => ldi::ldi(instruction, &mut registers, &mut memory),
-            11 => sti::sti(instruction, &mut registers, &mut memory),
-            12 => jmp::jmp(instruction, &mut registers),
-            //13 => {} //res
-            14 => lea::lea(instruction, &mut registers),
-            15 => trap::trap(instruction, &mut registers, &mut memory),
-            _ => process::exit(1),
-        }
     }
 }
