@@ -8,12 +8,12 @@ use signal_hook::{iterator::Signals, SIGINT};
 use std::{error::Error, thread};
 
 fn handle_interrupt() {
-    turn_on_canonical_and_echo_modes();
+    restore_terminal_settings();
     println!("Exiting with interrupt code.\n");
     process::exit(-2);
 }
 
-pub fn turn_on_canonical_and_echo_modes() {
+pub fn restore_terminal_settings() {
     let mut term: Termios = Termios::from_fd(STDIN_FILENO).unwrap();
     //turn on canonical mode and echo mode
     term.c_lflag |= ICANON | ECHO;
