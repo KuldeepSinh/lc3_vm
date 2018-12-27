@@ -11,6 +11,7 @@ pub mod not;
 pub mod st;
 pub mod sti;
 pub mod str;
+pub mod trap;
 
 use crate::hardware::register::ConditionFlag;
 use crate::hardware::register::Registers;
