@@ -2,8 +2,8 @@
 //! instrs have both an `opcode` which indicates the kind of task to perform and
 //! a set of `parameters` which provide inputs to the task being performed.
 
+use super::condition_flag;
 use super::sign_extend;
-use super::update_flags;
 use crate::hardware::register::Registers;
 
 pub fn add(instr: u16, registers: &mut Registers) {
@@ -23,5 +23,5 @@ pub fn add(instr: u16, registers: &mut Registers) {
         let val: u32 = registers.get(sr1) as u32 + registers.get(sr2) as u32;
         registers.update(dr, val as u16);
     }
-    update_flags(dr, registers);
+    condition_flag::update_flags(dr, registers);
 }

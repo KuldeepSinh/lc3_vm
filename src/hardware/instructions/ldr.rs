@@ -1,5 +1,5 @@
+use super::condition_flag;
 use super::sign_extend;
-use super::update_flags;
 use crate::hardware::register::Registers;
 use crate::hardware::Memory;
 
@@ -9,5 +9,5 @@ pub fn ldr(instr: u16, registers: &mut Registers, memory: &mut Memory) {
     let offset = sign_extend(instr & 0x3F, 6);
     let val: u32 = registers.get(sr1) as u32 + offset as u32;
     registers.update(dr, memory.read(val as u16));
-    update_flags(dr, registers);
+    condition_flag::update_flags(dr, registers);
 }
