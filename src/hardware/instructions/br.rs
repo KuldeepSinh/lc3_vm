@@ -5,6 +5,11 @@ pub fn br(instr: u16, registers: &mut Registers) {
     let pc_offset = sign_extend((instr) & 0x1ff, 9);
     let cond_flag = (instr >> 9) & 0x7;
     if cond_flag & registers.r_cond != 0 {
-        registers.r_pc = registers.r_pc + pc_offset;
+        let val: u32 = registers.r_pc as u32 + pc_offset as u32;
+        if val > 65535 {
+            registers.r_pc = (val - 65536) as u16;
+        } else {
+            registers.r_pc = val as u16;
+        }
     }
 }

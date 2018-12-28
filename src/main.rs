@@ -1,6 +1,5 @@
 extern crate signal_hook;
 
-use lc3_vm;
 use lc3_vm::hardware;
 use lc3_vm::sys::terminal;
 use std::env;
@@ -13,6 +12,7 @@ fn main() -> Result<(), Box<Error>> {
     //handle command line arguments and process instructions
     match lc3_vm::handle_args(env::args()) {
         Ok(mem) => {
+            //execute program
             hardware::execute_program(mem);
             //restore terminal settings
             terminal::restore_terminal_settings();

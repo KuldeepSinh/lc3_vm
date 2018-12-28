@@ -8,7 +8,12 @@ pub fn jsr(instr: u16, registers: &mut Registers) {
     registers.r_07 = registers.r_pc;
 
     if long_flag != 0 {
-        registers.r_pc = registers.r_pc + long_pc_offset; /* JSR */
+        let val: u32 = registers.r_pc as u32 + long_pc_offset as u32;
+        if val > 65535 {
+            registers.r_pc = (val - 65536) as u16;
+        } else {
+            registers.r_pc = val as u16;
+        } /* JSR */
     } else {
         registers.r_pc = registers.get(base_reg); /* JSRR */
     }
