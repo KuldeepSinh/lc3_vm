@@ -8,6 +8,7 @@ pub mod ldi;
 pub mod ldr;
 pub mod lea;
 pub mod not;
+pub mod opcode;
 pub mod st;
 pub mod sti;
 pub mod str;
