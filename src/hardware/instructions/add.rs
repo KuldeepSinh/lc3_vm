@@ -16,21 +16,12 @@ pub fn add(instr: u16, registers: &mut Registers) {
     if imm_flag == 1 {
         let imm5 = sign_extend(instr & 0x1F, 5);
         let val: u32 = imm5 as u32 + registers.get(sr1) as u32;
-        if val > 65535 {
-            registers.update(dr, (val - 65536) as u16);
-        } else {
-            registers.update(dr, val as u16);
-        }
+        registers.update(dr, val as u16);
     } else {
         /* first operand (SR2) */
         let sr2 = instr & 0x7;
-
         let val: u32 = registers.get(sr1) as u32 + registers.get(sr2) as u32;
-        if val > 65535 {
-            registers.update(dr, (val - 65536) as u16);
-        } else {
-            registers.update(dr, val as u16);
-        }
+        registers.update(dr, val as u16);
     }
     update_flags(dr, registers);
 }
