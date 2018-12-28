@@ -26,7 +26,11 @@ impl Memory {
         }
     }
     pub fn write(&mut self, address: usize, value: u16) {
-        self.cells[address] = value;
+        if address > 65535 {
+            self.cells[address - 65536] = value;
+        } else {
+            self.cells[address] = value;
+        }
     }
 
     pub fn read(&mut self, address: u16) -> u16 {

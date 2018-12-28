@@ -5,6 +5,8 @@
 //! Programs work around this by loading values from memory into registers, calculating values into other registers,
 //! and then storing the final results back in memory.
 /// `PC_START` sets initial value of the program counter (r_pc) = 0x3000.
+pub mod condition_flag;
+
 pub const PC_START: u16 = 0x3000;
 
 /// The LC-3 has 10 total registers, each of which is 16 bits. Most of them are general purpose, but a few have designated roles.
@@ -91,37 +93,6 @@ impl Registers {
     }
 }
 
-/// The R_COND register stores condition flags which provide information
-/// about the most recently executed calculation.
-/// This allows programs to check logical conditions such as if (x > 0) { ... }.
-/// The LC-3 uses only 3 condition flags
-/// which indicate the sign of the previous calculation.
-/// - `FlPos` represents `Positive` value.
-/// - `FlZro` represents `Zero` value.
-/// - `FlNeg` represents `Negative` value.
-pub enum ConditionFlag {
-    /// `ConditionFlag::FlPos` represents `Positive`.
-    FlPos, // = 1, Positive
-    /// `ConditionFlag::FlZro` represents `Zero`.
-    FlZro, // = 2, Zero
-    /// `ConditionFlag::FlNeg` represents `Negative`.
-    FlNeg, // = 4, Negative
-}
-
-impl ConditionFlag {
-    /// `get_flag_value` function returns `u8` value for the `ConditionFlag` passed to its argument.
-    /// - `ConditionFlag::FlPos` = 1, Positive
-    /// - `ConditionFlag::FlZro` = 2, Zero
-    /// - `ConditionFlag::FlNeg` = 4, Negative
-    pub fn get_flag_value(flag: ConditionFlag) -> u16 {
-        match flag {
-            ConditionFlag::FlPos => 1 << 0, // Positive
-            ConditionFlag::FlZro => 1 << 1, // Zero
-            ConditionFlag::FlNeg => 1 << 2, // Negative
-        }
-    }
-}
-
 #[cfg(test)]
 mod registers_test {
     use super::*;
@@ -129,23 +100,5 @@ mod registers_test {
     fn value_of_r_pc_in_a_new_register_should_be_0x3000() {
         let registers = Registers::new();
         assert_eq!(0x3000, registers.r_pc);
-    }
-}
-
-#[cfg(test)]
-mod condition_flag_test {
-    use super::*;
-    #[test]
-    fn value_of_flpos_should_be_1() {
-        assert_eq!(1, ConditionFlag::get_flag_value(ConditionFlag::FlPos));
-    }
-    #[test]
-    fn value_of_flzro_should_be_2() {
-        assert_eq!(2, ConditionFlag::get_flag_value(ConditionFlag::FlZro));
-    }
-
-    #[test]
-    fn value_of_flneg_should_be_4() {
-        assert_eq!(4, ConditionFlag::get_flag_value(ConditionFlag::FlNeg));
     }
 }

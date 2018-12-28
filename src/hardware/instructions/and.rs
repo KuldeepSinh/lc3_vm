@@ -1,5 +1,5 @@
 use super::sign_extend;
-use super::update_flags;
+use crate::hardware::register::condition_flag;
 use crate::hardware::register::Registers;
 
 pub fn and(instr: u16, registers: &mut Registers) {
@@ -14,5 +14,5 @@ pub fn and(instr: u16, registers: &mut Registers) {
         let sr2 = instr & 0x7;
         registers.update(dr, registers.get(sr1) & registers.get(sr2));
     }
-    update_flags(dr, registers);
+    condition_flag::update_flags(dr, registers);
 }

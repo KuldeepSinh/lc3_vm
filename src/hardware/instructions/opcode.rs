@@ -1,18 +1,21 @@
 //! An `instruction` is a command which tells the CPU to do some fundamental task,
 //! such as add two numbers.
-//! Instructions have both an `opcode` which indicates the kind of task to perform
+//! super have both an `opcode` which indicates the kind of task to perform
 //! and a set of `parameters` which provide inputs to the task being performed.
 //! Each `opcode` represents one task that the CPU "knows" how to do.
 //! There are just 16 opcodes in LC-3. Everything the computer can calculate is some
-//! sequence of these simple instructions. Each instruction is 16 bits long,
+//! sequence of these simple super. Each instruction is 16 bits long,
 //! with the left 4 bits storing the opcode.
 //! The rest of the bits are used to store the parameters.
 
 /// Each `opcode` represents one task that the CPU "knows" how to do.
 /// There are just 16 opcodes in LC-3. Everything the computer can calculate is some
-/// sequence of these simple instructions. Each instruction is 16 bits long,
+/// sequence of these simple super. Each instruction is 16 bits long,
 /// with the left 4 bits storing the opcode.
 /// The rest of the bits are used to store the parameters.
+use crate::hardware::memory::Memory;
+use crate::hardware::Registers;
+
 #[derive(PartialEq, Debug)]
 pub enum OpCode {
     /// `Br` is an `OpCode` for branch.
@@ -71,6 +74,47 @@ impl OpCode {
             15 => Some(OpCode::Trap),
             _ => None,
         }
+    }
+}
+
+pub fn execute_instruction(instr: u16, mut registers: &mut Registers, mut memory: &mut Memory) {
+    //extract op_code from the instruction
+    let op_code = extract_op_code(&instr);
+    //match op_code and execute instruction
+    match op_code {
+        Some(OpCode::Add) => super::add::add(instr, &mut registers),
+        Some(OpCode::And) => super::and::and(instr, &mut registers),
+        Some(OpCode::Not) => super::not::not(instr, &mut registers),
+        Some(OpCode::Br) => super::br::br(instr, &mut registers),
+        Some(OpCode::Jmp) => super::jmp::jmp(instr, &mut registers),
+        Some(OpCode::Jsr) => super::jsr::jsr(instr, &mut registers),
+        Some(OpCode::Ld) => super::ld::ld(instr, &mut registers, &mut memory),
+        Some(OpCode::Ldi) => super::ldi::ldi(instr, &mut registers, &mut memory),
+        Some(OpCode::Ldr) => super::ldr::ldr(instr, &mut registers, &mut memory),
+        Some(OpCode::Lea) => super::lea::lea(instr, &mut registers),
+        Some(OpCode::St) => super::st::st(instr, &mut registers, &mut memory),
+        Some(OpCode::Sti) => super::sti::sti(instr, &mut registers, &mut memory),
+        Some(OpCode::Str) => super::str::str(instr, &mut registers, &mut memory),
+        Some(OpCode::Trap) => super::trap::trap(instr, &mut registers, &mut memory),
+        _ => {}
+    }
+}
+
+//Each instruction is 16 bits long, with the left 4 bits storing the opcode.
+//The rest of the bits are used to store the parameters.
+//To extract left 4 bits out of the instruction, we'll use ">>" shift-right
+//operator and shift first 4 bits 12 positions towards right
+fn extract_op_code(instruction: &u16) -> Option<OpCode> {
+    OpCode::get(instruction >> 12)
+}
+
+#[cfg(test)]
+mod extract_op_code_test {
+    use super::*;
+    #[test]
+    fn extract_test() {
+        let four = 16384;
+        assert_eq!(Some(OpCode::Jsr), extract_op_code(&four));
     }
 }
 

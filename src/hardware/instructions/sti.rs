@@ -5,6 +5,8 @@ use crate::hardware::Memory;
 pub fn sti(instr: u16, registers: &mut Registers, memory: &mut Memory) {
     let dr = (instr >> 9) & 0x7;
     let pc_offset = sign_extend(instr & 0x1ff, 9);
-    let adrs = memory.read(registers.r_pc + pc_offset) as usize;
+    let val: u32 = registers.r_pc as u32 + pc_offset as u32;
+    let val: u16 = val as u16;
+    let adrs = memory.read(val) as usize;
     memory.write(adrs, registers.get(dr));
 }
