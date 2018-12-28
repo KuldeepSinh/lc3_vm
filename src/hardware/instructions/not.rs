@@ -1,4 +1,4 @@
-use super::condition_flag;
+use crate::hardware::register::condition_flag;
 use crate::hardware::register::Registers;
 
 pub fn not(instr: u16, registers: &mut Registers) {

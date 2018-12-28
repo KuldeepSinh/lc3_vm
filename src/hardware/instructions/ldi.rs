@@ -1,5 +1,5 @@
-use super::condition_flag;
 use super::sign_extend;
+use crate::hardware::register::condition_flag;
 use crate::hardware::register::Registers;
 use crate::hardware::Memory;
 

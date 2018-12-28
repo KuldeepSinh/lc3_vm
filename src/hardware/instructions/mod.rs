@@ -1,7 +1,6 @@
 pub mod add;
 pub mod and;
 pub mod br;
-pub mod condition_flag;
 pub mod jmp;
 pub mod jsr;
 pub mod ld;
