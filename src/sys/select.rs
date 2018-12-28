@@ -6,7 +6,7 @@ use std::mem;
 use std::os::unix::io::RawFd;
 use std::ptr::null_mut;
 
-pub use libc::FD_SETSIZE;
+use libc::FD_SETSIZE;
 
 // FIXME: Change to repr(transparent) once it's stable
 #[repr(C)]

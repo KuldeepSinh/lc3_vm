@@ -5,8 +5,7 @@ use crate::sys::getchar::get_char;
 use crate::sys::select::{self, FdSet};
 use crate::sys::time::TimeVal;
 use crate::sys::time::TimeValLike;
-
-pub use libc::STDIN_FILENO;
+use libc::STDIN_FILENO;
 
 /// `MEMORY_SIZE` is a constant to represent size of memory in LC-3.
 pub const MEMORY_SIZE: usize = std::u16::MAX as usize;

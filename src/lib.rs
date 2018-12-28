@@ -5,4 +5,18 @@
 pub mod file;
 pub mod hardware;
 pub mod sys;
-pub mod terminal;
+
+use self::hardware::memory::Memory;
+use std::env::Args;
+
+pub fn handle_args(mut args: Args) -> Result<Memory, &'static str> {
+    //skip 0th element
+    args.next();
+    match args.next() {
+        Some(arg) => match file::read_file(arg) {
+            Ok(mem) => Ok(mem),
+            Err(_) => Err("Error encountered while reading into memory."),
+        },
+        None => Err("No more file for processing."),
+    }
+}
