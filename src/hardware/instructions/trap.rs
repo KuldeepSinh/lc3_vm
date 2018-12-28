@@ -1,7 +1,7 @@
 use crate::hardware::register::Registers;
 use crate::hardware::Memory;
-use crate::sys::getchar::get_char;
-use crate::sys::terminal::restore_terminal_settings;
+use crate::sys::getchar;
+use crate::sys::terminal;
 use std::io;
 use std::io::Write;
 use std::process;
@@ -19,56 +19,47 @@ pub enum TrapCode {
 pub fn trap(instr: u16, registers: &mut Registers, memory: &mut Memory) {
     match instr & 0xFF {
         0x20 => {
-            registers.update(0, get_char() as u16);
+            registers.update(0, getchar::get_char() as u16);
         }
         0x21 => {
-            print!("{}", registers.r_00);
+            print!("{}", (registers.r_00 as u8) as char);
             io::stdout().flush().expect("Flushed.");
         }
         0x22 => {
             // /* one char per word */
             let mut index = registers.r_00 as usize;
-            let mut c = memory.cells[index] as u8;
-            while c as char != '\0' {
-                print!("{}", c);
+            let mut c = memory.cells[index];
+            while (c as u8) as char != '\0' {
+                print!("{}", (c as u8) as char);
                 index += 1;
-                c = memory.cells[index] as u8
+                c = memory.cells[index];
             }
-            // {
-            //  putc((char)*c, stdout);
-            //  ++c;
-            // }
-            // fflush(stdout);
-            // }
+            io::stdout().flush().expect("Flushed.");
         }
         0x23 => {
             println!("Enter a character : ");
-            registers.update(0, get_char() as u16);
+            registers.update(0, getchar::get_char() as u16);
         }
         0x24 => {
-            unimplemented!("putc still needs to be implemented");
-            // /* TRAP PUTSP */
-            // {
-            // /* one char per byte (two bytes per word)
-            // here we need to swap back to
-            // big endian format */
-            // uint16_t* c = memory + reg[R_R0];
-            // while (*c)
-            // {
-            //      char char1 = (*c) & 0xFF;
-            //      putc(char1, stdout);
-            //      char char2 = (*c) >> 8;
-            //      if (char2) putc(char2, stdout);
-            //         ++c;
-            //  }
-            //  fflush(stdout);
-            //  }
+            let mut index = registers.r_00 as usize;
+            let mut c = memory.cells[index];
+            while (c as u8) as char != '\0' {
+                let c1 = (c & 0xFF) as u8;
+                print!("{}", c1 as char);
+                let c2 = (c >> 8) as u8;
+                if c2 as char != '\0' {
+                    print!("{}", c2 as char);
+                }
+                index += 1;
+                c = memory.cells[index];
+            }
+            io::stdout().flush().expect("Flushed.");
         }
         0x25 => {
             /* TRAP HALT */
             print!("HALT");
             io::stdout().flush().expect("Flushed.");
-            restore_terminal_settings();
+            terminal::restore_terminal_settings();
             process::exit(1);
         }
         _ => {
