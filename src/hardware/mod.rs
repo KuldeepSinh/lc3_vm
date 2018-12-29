@@ -7,17 +7,20 @@ pub mod register;
 
 use self::instructions::opcode;
 use self::memory::Memory;
+use self::memory::MEMORY_SIZE;
 use self::register::Registers;
 
 pub fn execute_program(mem: Memory) {
     //initialize Registers
     let mut memory = mem.clone();
     let mut registers = Registers::new();
-    loop {
+    while registers.r_pc < MEMORY_SIZE as u16 {
         //read instruction
         let instruction = memory.read(registers.r_pc);
+
         //increment program counter
         registers.r_pc += 1;
+
         //extract op_code and execute operation...
         opcode::execute_instruction(instruction, &mut registers, &mut memory);
     }
