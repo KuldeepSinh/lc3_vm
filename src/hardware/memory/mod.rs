@@ -16,12 +16,14 @@ pub const MEMORY_SIZE: usize = std::u16::MAX as usize;
 #[derive(Copy)]
 pub struct Memory {
     /// Memory is an array of `u16` cells, with length = 65,536.
-    pub cells: [u16; 65536],
+    pub cells: [u16; MEMORY_SIZE],
 }
 
 impl Memory {
     pub fn new() -> Memory {
-        Memory { cells: [0; 65536] }
+        Memory {
+            cells: [0; MEMORY_SIZE],
+        }
     }
     pub fn write(&mut self, address: usize, value: u16) {
         self.cells[(address as u16) as usize] = value;

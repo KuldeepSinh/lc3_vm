@@ -7,13 +7,14 @@ pub mod register;
 
 use self::instructions::opcode;
 use self::memory::Memory;
+use self::memory::MEMORY_SIZE;
 use self::register::Registers;
 
 pub fn execute_program(mem: Memory) {
     //initialize Registers
     let mut memory = mem.clone();
     let mut registers = Registers::new();
-    while registers.r_pc < std::u16::MAX {
+    while registers.r_pc < MEMORY_SIZE as u16 {
         //read instruction
         let instruction = memory.read(registers.r_pc);
 
