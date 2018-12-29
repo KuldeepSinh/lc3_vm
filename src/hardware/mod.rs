@@ -13,11 +13,13 @@ pub fn execute_program(mem: Memory) {
     //initialize Registers
     let mut memory = mem.clone();
     let mut registers = Registers::new();
-    loop {
+    while registers.r_pc < std::u16::MAX {
         //read instruction
         let instruction = memory.read(registers.r_pc);
+
         //increment program counter
         registers.r_pc += 1;
+
         //extract op_code and execute operation...
         opcode::execute_instruction(instruction, &mut registers, &mut memory);
     }
