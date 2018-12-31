@@ -23,5 +23,5 @@ pub fn add(instr: u16, registers: &mut Registers) {
         let val: u32 = registers.get(sr1) as u32 + registers.get(sr2) as u32;
         registers.update(dr, val as u16);
     }
-    condition_flag::update_flags(dr, registers);
+    condition_flag::update_r_cond_register(dr, registers);
 }

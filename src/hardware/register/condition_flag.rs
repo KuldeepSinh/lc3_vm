@@ -31,7 +31,7 @@ impl ConditionFlag {
     }
 }
 
-pub fn update_flags(r: u16, registers: &mut Registers) {
+pub fn update_r_cond_register(r: u16, registers: &mut Registers) {
     if registers.get(r) == 0 {
         registers.update(9, ConditionFlag::get_flag_value(ConditionFlag::FlZro));
     } else if (registers.get(r) >> 15) != 0 {
