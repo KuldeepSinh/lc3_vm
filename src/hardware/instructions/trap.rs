@@ -37,7 +37,8 @@ pub fn trap(instr: u16, registers: &mut Registers, memory: &mut Memory) {
             io::stdout().flush().expect("Flushed.");
         }
         0x23 => {
-            println!("Enter a character : ");
+            print!("Enter a character : ");
+            io::stdout().flush().expect("Flushed.");
             registers.update(0, getchar::get_char() as u16);
         }
         0x24 => {
