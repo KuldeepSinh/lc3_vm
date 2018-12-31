@@ -43,7 +43,7 @@ pub fn trap(instr: u16, registers: &mut Registers, memory: &mut Memory) {
         0x24 => {
             let mut index = registers.r_00 as usize;
             let mut c = memory.cells[index];
-            while (c as u8) as char != '\0' {
+            while c != 0x0000 {
                 let c1 = ((c & 0xFF) as u8) as char;
                 print!("{}", c1);
                 let c2 = ((c >> 8) as u8) as char;
