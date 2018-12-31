@@ -22,14 +22,14 @@ pub fn restore_terminal_settings() {
     let mut term: Termios = Termios::from_fd(STDIN_FILENO).unwrap();
     //turn on canonical mode and echo mode
     term.c_lflag |= ICANON | ECHO;
-    tcsetattr(0, TCSANOW, &term).unwrap();
+    tcsetattr(STDIN_FILENO, TCSANOW, &term).unwrap();
 }
 
 pub fn turn_off_canonical_and_echo_modes() {
     let mut term: Termios = Termios::from_fd(STDIN_FILENO).unwrap();
     //turn off canonical mode and echo mode
-    term.c_lflag &= !(ICANON | ECHO);
-    tcsetattr(0, TCSANOW, &term).unwrap();
+    term.c_lflag &= (!ICANON) & (!ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &term).unwrap();
 }
 
 /// When the program is interrupted (with pressing `Control-C` keys), we want to restore the terminal settings back to normal.
