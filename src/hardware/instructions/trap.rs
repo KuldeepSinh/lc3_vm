@@ -1,3 +1,9 @@
+//! `trap` :
+//! The LC-3 provides a few predefined routines for performing common tasks and interacting with I/O devices.
+//! For example, there are routines for getting input from the keyboard and for displaying strings to the console.
+//! These are called trap routines which you can think of as the operating system or API for the LC-3.
+//! Each trap routine is assigned a trap code which identifies it (similar to an opcode).
+//! To execute one, the TRAP instruction is called with the trap code of the desired routine.
 use crate::hardware::register::Registers;
 use crate::hardware::Memory;
 use crate::sys::getchar;
@@ -6,16 +12,28 @@ use std::io;
 use std::io::Write;
 use std::process;
 
-/* TRAP Codes */
+// TRAP Codes
 pub enum TrapCode {
-    Getc = 0x20,  /* get character from keyboard */
-    Out = 0x21,   /* output a character */
-    Puts = 0x22,  /* output a word string */
-    In = 0x23,    /* input a string */
+    /// get character from keyboard
+    Getc = 0x20, /* get character from keyboard */
+    /// output a character
+    Out = 0x21, /* output a character */
+    /// output a word string
+    Puts = 0x22, /* output a word string */
+    /// input a string
+    In = 0x23, /* input a string */
+    /// output a byte string
     Putsp = 0x24, /* output a byte string */
-    Halt = 0x25,  /* halt the program */
+    /// halt the program
+    Halt = 0x25, /* halt the program */
 }
 
+/// `trap` fn allows interacting with I/O devices
+/// First R7 is loaded with the incremented PC.
+// (This enables a return to the instruction physically following the TRAP instruction in the original program
+/// after the service routine has completed execution.)
+/// Then the PC is loaded with the starting address of the system call specified by trapvector8.
+/// The starting address is contained in the memory location whose address is obtained by zero-extending trapvector8 to 16 bits.
 pub fn trap(instr: u16, registers: &mut Registers, memory: &mut Memory) {
     terminal::turn_off_canonical_and_echo_modes();
     match instr & 0xFF {
@@ -61,9 +79,11 @@ pub fn trap(instr: u16, registers: &mut Registers, memory: &mut Memory) {
             /* TRAP HALT */
             print!("HALT");
             io::stdout().flush().expect("Flushed.");
+            terminal::restore_terminal_settings();
             process::exit(1);
         }
         _ => {
+            terminal::restore_terminal_settings();
             process::exit(1);
         }
     }

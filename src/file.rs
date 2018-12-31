@@ -1,3 +1,8 @@
+//! `file` reading :
+//! The first 16 bits of the program file specify the address in memory where the program should start.
+//! This address is called the origin. It must be read first,
+//! after which the rest of the data can be read from the file into memory starting at the origin address.
+
 extern crate byteorder;
 
 use crate::hardware::memory::Memory;
@@ -6,7 +11,9 @@ use std::{
     fs::File,
     io::{self, BufReader, Read},
 };
-
+/// `read_file` fn reads a file into the LC-3 Memory.
+/// LC-3 programs are big-endian, but most of the modern computers we use are little endian.
+// As a result, we are reading instruction as BigEndian (with the help of `exter crate byteorder`).
 pub fn read_file(name: String) -> io::Result<Memory> {
     let f = File::open(name)?;
     let f = BufReader::new(f);

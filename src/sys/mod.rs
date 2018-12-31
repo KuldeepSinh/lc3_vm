@@ -1,3 +1,5 @@
+//! `sys` module is designed to handle low level interaction with the system.
+//! Most of the times, such interactions require use of unsafe code via libc and other crates.
 pub mod errno;
 pub mod getchar;
 pub mod select;
