@@ -29,7 +29,7 @@ pub fn trap(instr: u16, registers: &mut Registers, memory: &mut Memory) {
             // /* one char per word */
             let mut index = registers.r_00 as usize;
             let mut c = memory.cells[index];
-            while (c as u8) as char != '\0' {
+            while c != 0x0000 {
                 print!("{}", (c as u8) as char);
                 index += 1;
                 c = memory.cells[index];
@@ -44,11 +44,11 @@ pub fn trap(instr: u16, registers: &mut Registers, memory: &mut Memory) {
             let mut index = registers.r_00 as usize;
             let mut c = memory.cells[index];
             while (c as u8) as char != '\0' {
-                let c1 = (c & 0xFF) as u8;
-                print!("{}", c1 as char);
-                let c2 = (c >> 8) as u8;
-                if c2 as char != '\0' {
-                    print!("{}", c2 as char);
+                let c1 = ((c & 0xFF) as u8) as char;
+                print!("{}", c1);
+                let c2 = ((c >> 8) as u8) as char;
+                if c2 != '\0' {
+                    print!("{}", c2);
                 }
                 index += 1;
                 c = memory.cells[index];
