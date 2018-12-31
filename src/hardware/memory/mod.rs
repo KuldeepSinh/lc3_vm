@@ -56,7 +56,7 @@ fn check_key() -> bool {
     let mut fd = FdSet::new();
     fd.insert(STDIN_FILENO);
 
-    let mut timeout = TimeVal::seconds(10);
+    let mut timeout = TimeVal::seconds(0);
     match select::select(1, &mut fd, None, None, &mut timeout) {
         Err(_) => false,
         _ => true,

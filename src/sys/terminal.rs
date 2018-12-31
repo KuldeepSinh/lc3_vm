@@ -28,7 +28,7 @@ pub fn restore_terminal_settings() {
 pub fn turn_off_canonical_and_echo_modes() {
     let mut term: Termios = Termios::from_fd(STDIN_FILENO).unwrap();
     //turn off canonical mode and echo mode
-    term.c_lflag &= (!ICANON) & (!ECHO);
+    term.c_lflag &= !(ICANON | ECHO);
     tcsetattr(STDIN_FILENO, TCSANOW, &term).unwrap();
 }
 
