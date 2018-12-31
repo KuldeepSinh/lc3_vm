@@ -9,6 +9,8 @@ pub mod sys;
 use self::hardware::memory::Memory;
 use std::env::Args;
 
+/// `handle_args` fn processes commandline arguments.
+/// If appropriate file path is found in the args, it reads the file into the memory.
 pub fn handle_args(mut args: Args) -> Result<Memory, &'static str> {
     //skip 0th element
     args.next();

@@ -47,8 +47,13 @@ impl Clone for Memory {
         *self
     }
 }
+/// The LC-3 has two memory mapped registers that need to be implemented.
+/// They are the keyboard status register (KBSR) and keyboard data register (KBDR).
+/// The KBSR indicates whether a key has been pressed, and the KBDR identifies which key was pressed.
 pub enum MemoryMappedReg {
+    /// keyboard status: The KBSR indicates whether a key has been pressed
     Kbsr = 0xFE00, /* keyboard status */
+    /// keyboard data: The KBDR identifies which key was pressed
     Kbdr = 0xFE02, /* keyboard data */
 }
 

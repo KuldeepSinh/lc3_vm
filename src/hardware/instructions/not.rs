@@ -1,6 +1,7 @@
 use crate::hardware::register::condition_flag;
 use crate::hardware::register::Registers;
 
+/// `not` fn performs bitwise not
 pub fn not(instr: u16, registers: &mut Registers) {
     let dr = (instr >> 9) & 0x7;
     let sr1 = (instr >> 6) & 0x7;
