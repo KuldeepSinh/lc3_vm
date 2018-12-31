@@ -28,7 +28,12 @@ pub enum TrapCode {
     Halt = 0x25, /* halt the program */
 }
 
-/// `trap` fn allows interacting with I/O devices.
+/// `trap` fn allows interacting with I/O devices
+/// First R7 is loaded with the incremented PC.
+// (This enables a return to the instruction physically following the TRAP instruction in the original program
+/// after the service routine has completed execution.)
+/// Then the PC is loaded with the starting address of the system call specified by trapvector8.
+/// The starting address is contained in the memory location whose address is obtained by zero-extending trapvector8 to 16 bits.
 pub fn trap(instr: u16, registers: &mut Registers, memory: &mut Memory) {
     terminal::turn_off_canonical_and_echo_modes();
     match instr & 0xFF {

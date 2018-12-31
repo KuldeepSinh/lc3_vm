@@ -47,6 +47,9 @@ impl Clone for Memory {
         *self
     }
 }
+/// Memory-mapped I/O Input and output are handled by load/store (LDI/STI, LDR/STR) instructions using memory addresses
+/// to designate each I/O device register.
+/// Addresses xFE00 through xFFFF have been allocated to represent the addresses of I/O devices.
 /// The LC-3 has two memory mapped registers that need to be implemented.
 /// They are the keyboard status register (KBSR) and keyboard data register (KBDR).
 /// The KBSR indicates whether a key has been pressed, and the KBDR identifies which key was pressed.

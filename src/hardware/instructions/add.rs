@@ -6,7 +6,12 @@ use crate::hardware::register::Registers;
 /// - In register mode, the second value to add is found in a register.
 /// - In immediate mode, the second value is embedded in the right-most 5 bits of the instruction.
 /// - Values which are shorter than 16 bits need to be sign extended.
-/// - Any time an instruction modifies a register, the condition flags need to be updated.
+/// - Any time an instruction modifies a register, the condition flags need to be updated
+/// If bit [5] is 0, the second source operand is obtained from SR2.
+/// If bit [5] is 1, the second source operand is obtained by sign-extending the imm5 field to 16 bits.
+/// In both cases, the second source operand is added to the contents of SR1 and the result stored in DR.
+/// The condition codes are set, based on whether the result is negative, zero, or positive.
+
 pub fn add(instr: u16, registers: &mut Registers) {
     /* destination register (DR) */
     let dr = (instr >> 9) & 0x7;
