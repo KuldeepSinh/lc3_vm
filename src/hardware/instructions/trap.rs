@@ -17,6 +17,7 @@ pub enum TrapCode {
 }
 
 pub fn trap(instr: u16, registers: &mut Registers, memory: &mut Memory) {
+    terminal::turn_off_canonical_and_echo_modes();
     match instr & 0xFF {
         0x20 => {
             registers.update(0, getchar::get_char() as u16);
@@ -60,11 +61,11 @@ pub fn trap(instr: u16, registers: &mut Registers, memory: &mut Memory) {
             /* TRAP HALT */
             print!("HALT");
             io::stdout().flush().expect("Flushed.");
-            terminal::restore_terminal_settings();
             process::exit(1);
         }
         _ => {
             process::exit(1);
         }
     }
+    terminal::restore_terminal_settings();
 }

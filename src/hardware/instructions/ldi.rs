@@ -8,5 +8,5 @@ pub fn ldi(instr: u16, registers: &mut Registers, memory: &mut Memory) {
     let pc_offset = sign_extend(instr & 0x1ff, 9);
     let first_read = memory.read(registers.r_pc + pc_offset);
     registers.update(dr, memory.read(first_read));
-    condition_flag::update_flags(dr, registers);
+    condition_flag::update_r_cond_register(dr, registers);
 }

@@ -7,5 +7,5 @@ pub fn lea(instr: u16, registers: &mut Registers) {
     let pc_offset = sign_extend(instr & 0x1ff, 9);
     let val: u32 = registers.r_pc as u32 + pc_offset as u32;
     registers.update(dr, val as u16);
-    condition_flag::update_flags(dr, registers);
+    condition_flag::update_r_cond_register(dr, registers);
 }

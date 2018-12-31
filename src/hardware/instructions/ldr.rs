@@ -9,5 +9,5 @@ pub fn ldr(instr: u16, registers: &mut Registers, memory: &mut Memory) {
     let offset = sign_extend(instr & 0x3F, 6);
     let val: u32 = registers.get(sr1) as u32 + offset as u32;
     registers.update(dr, memory.read(val as u16));
-    condition_flag::update_flags(dr, registers);
+    condition_flag::update_r_cond_register(dr, registers);
 }

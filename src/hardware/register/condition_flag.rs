@@ -31,7 +31,10 @@ impl ConditionFlag {
     }
 }
 
-pub fn update_flags(r: u16, registers: &mut Registers) {
+/// The R_COND register stores condition flags which provide information
+/// about the most recently executed calculation.
+/// Any time a value is written to a register, we use  'update_r_cond_register' fn to update the flags to indicate its sign.
+pub fn update_r_cond_register(r: u16, registers: &mut Registers) {
     if registers.get(r) == 0 {
         registers.update(9, ConditionFlag::get_flag_value(ConditionFlag::FlZro));
     } else if (registers.get(r) >> 15) != 0 {
