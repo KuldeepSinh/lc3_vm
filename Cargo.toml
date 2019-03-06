@@ -11,6 +11,7 @@ homepage = "https://github.com/KuldeepSinh/lc3_vm"
 repository = "https://github.com/KuldeepSinh/lc3_vm"
 readme = "README.md"
 keywords = ["lc3", "vm"]
+exclude = ["resources"]
 
 [dependencies]
 signal-hook = "0.1.6"
