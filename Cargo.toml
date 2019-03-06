@@ -3,6 +3,9 @@ name = "lc3_vm"
 version = "0.1.0"
 authors = ["Kuldeep Sinh Chauhan <chauhan.kuldeep.sinh@gmail.com>"]
 edition = "2018"
+description = "LC-3 (Little Computer 3) VM implemented in Rust. Ideally, it will run any LC-3 assembly program."
+license = "Apache License version 2.0"
+license-file = "LICENSE"
 
 [dependencies]
 signal-hook = "0.1.6"
