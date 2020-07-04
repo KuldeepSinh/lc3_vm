@@ -16,7 +16,7 @@ pub struct FdSet(libc::fd_set);
 
 impl FdSet {
     pub fn new() -> FdSet {
-        let mut fdset = unsafe { mem::uninitialized() };
+	let mut fdset = unsafe { mem::MaybeUninit::uninit().assume_init() };
         unsafe { libc::FD_ZERO(&mut fdset) };
         FdSet(fdset)
     }

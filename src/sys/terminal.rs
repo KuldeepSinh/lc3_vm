@@ -36,7 +36,7 @@ pub fn turn_off_canonical_and_echo_modes() {
 /// `spawn_control_c_handler` function will spawn a thread to handle `Control-C` (interrupt signal).
 /// When user presses `Control-C` keys, it restores terminal to its original, i.e. it turns value of `ICANON` and `ECHO` modes to 1.
 /// And exists the process with process code = 130 (as mentioned here, http://tldp.org/LDP/abs/html/exitcodes.html).
-pub fn spawn_control_c_handler() -> Result<(), Box<Error>> {
+pub fn spawn_control_c_handler() -> Result<(), Box<dyn Error>> {
     //setup for interrupt handling.
     let signals = Signals::new(&[SIGINT])?;
     thread::spawn(move || {

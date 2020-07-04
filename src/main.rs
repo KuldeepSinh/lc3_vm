@@ -6,7 +6,7 @@ use std::env;
 use std::error::Error;
 use std::process;
 
-fn main() -> Result<(), Box<Error>> {
+fn main() -> Result<(), Box<dyn Error>> {
     //setup for interrupt handling.
     terminal::spawn_control_c_handler()?;
     //handle command line arguments and process instructions
