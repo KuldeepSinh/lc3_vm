@@ -8,7 +8,7 @@ use crate::sys::time::TimeValLike;
 use libc::STDIN_FILENO;
 
 /// `MEMORY_SIZE` is a constant to represent size of memory in LC-3.
-pub const MEMORY_SIZE: usize = std::u16::MAX as usize;
+pub const MEMORY_SIZE: usize = u16::MAX as usize + 1;
 
 /// `Memory` : LC-3 has 65,536 memory locations (the maximum that is addressable by a 16-bit unsigned integer 2^16),
 /// each of which stores a 16-bit value. This means it can store a total of only 128kb.
@@ -68,5 +68,23 @@ fn check_key() -> bool {
     match select::select(1, &mut fd, None, None, &mut timeout) {
         Err(_) => false,
         _ => true,
+    }
+}
+
+#[cfg(test)]
+mod memory_test {
+    use super::*;
+
+    const EXPECTED_MEMORY_SIZE: usize = 65536;
+
+    #[test]
+    fn memory_size() {
+        let memory = Memory::new();
+        assert_eq!(memory.cells.len(), EXPECTED_MEMORY_SIZE);
+    }
+
+    #[test]
+    fn memory_size_constant() {
+        assert_eq!(MEMORY_SIZE, EXPECTED_MEMORY_SIZE);
     }
 }
